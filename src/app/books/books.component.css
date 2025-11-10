@@ -1,5 +1,3 @@
-/* Sombra y bordes redondeados ya vienen de Bootstrap, aquí afinamos detalles */
-
 .card {
   border-radius: 0.75rem;
 }
