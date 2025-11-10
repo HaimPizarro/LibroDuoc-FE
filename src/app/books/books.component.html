@@ -1,0 +1,164 @@
+<div class="container py-4">
+  <!-- Título y botón de refrescar -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-0">
+        📚 Gestión de Libros
+      </h1>
+      <small class="text-muted">CRUD completo conectado a tu backend</small>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-outline-primary" (click)="loadBooks()">
+        <i class="bi bi-arrow-clockwise"></i> Mostrar / Refrescar
+      </button>
+      <button class="btn btn-outline-secondary" (click)="resetForm()">
+        Nuevo libro
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensajes -->
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ successMessage }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="successMessage = ''"></button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="errorMessage = ''"></button>
+  </div>
+
+  <div class="row g-4">
+    <!-- Columna formulario -->
+    <div class="col-12 col-lg-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-primary text-white">
+          <strong>{{ isEditing ? 'Editar libro' : 'Agregar nuevo libro' }}</strong>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="submitForm()" #bookForm="ngForm" autocomplete="off">
+            <!-- Título -->
+            <div class="mb-3">
+              <label class="form-label">Título *</label>
+              <input
+                type="text"
+                class="form-control"
+                name="titulo"
+                required
+                [(ngModel)]="formBook.titulo"
+              />
+            </div>
+
+            <!-- Autor -->
+            <div class="mb-3">
+              <label class="form-label">Autor *</label>
+              <input
+                type="text"
+                class="form-control"
+                name="autor"
+                required
+                [(ngModel)]="formBook.autor"
+              />
+            </div>
+
+            <!-- Año publicación -->
+            <div class="mb-3">
+              <label class="form-label">Año publicación</label>
+              <input
+                type="date"
+                class="form-control"
+                name="anioPublicacion"
+                [(ngModel)]="formBook.anioPublicacion"
+              />
+            </div>
+
+            <!-- Género -->
+            <div class="mb-3">
+              <label class="form-label">Género</label>
+              <input
+                type="text"
+                class="form-control"
+                name="genero"
+                [(ngModel)]="formBook.genero"
+              />
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="bookForm.invalid"
+              >
+                {{ isEditing ? 'Guardar cambios' : 'Crear libro' }}
+              </button>
+
+              <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+                Limpiar
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-muted small">
+          * Campos obligatorios
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna listado -->
+    <div class="col-12 col-lg-8">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <strong>Listado de libros</strong>
+          <span class="badge bg-secondary">{{ books.length }} registros</span>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 60px;">ID</th>
+                  <th>Título</th>
+                  <th>Autor</th>
+                  <th>Año</th>
+                  <th>Género</th>
+                  <th style="width: 160px;" class="text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let b of books"
+                    [class.table-active]="selectedBook && selectedBook.id === b.id">
+                  <td>
+                    <span class="badge bg-primary-subtle text-primary border">
+                      {{ b.id }}
+                    </span>
+                  </td>
+                  <td>{{ b.titulo }}</td>
+                  <td>{{ b.autor }}</td>
+                  <td>{{ b.anioPublicacion | date:'yyyy' }}</td>
+                  <td>{{ b.genero || '-' }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-outline-primary me-1" (click)="selectForEdit(b)">
+                      Editar
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteBook(b)">
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="books.length === 0">
+                  <td colspan="6" class="text-center text-muted py-4">
+                    No hay libros registrados. Usa el formulario para agregar el primero.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer text-muted small">
+          Clic en <strong>Editar</strong> para cargar un libro en el formulario.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

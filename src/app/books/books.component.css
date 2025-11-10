@@ -1,0 +1,30 @@
+/* Sombra y bordes redondeados ya vienen de Bootstrap, aquí afinamos detalles */
+
+.card {
+  border-radius: 0.75rem;
+}
+
+/* Suavizar el header de la tarjeta principal */
+.card-header.bg-primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+/* Badge suave para ID */
+.bg-primary-subtle {
+  background-color: #dbeafe;
+}
+
+/* Resaltar fila seleccionada */
+.table-hover tbody tr.table-active {
+  background-color: #e0f2fe;
+}
+
+/* Botones más compactos en la tabla */
+.table .btn-sm {
+  padding-inline: 0.5rem;
+}
+
+/* Espacio bajo el título principal */
+h1.h3 {
+  font-weight: 600;
+}
